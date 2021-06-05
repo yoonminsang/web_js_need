@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .item {
+        outline: 1px solid gray;
+        padding: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content"></div>
+    <script>
+      function Draggable() {
+        const $content = document.querySelector('.content');
+        this.state = [];
+        this.setState = (nextState) => {
+          this.state = nextState;
+          this.render();
+        };
+        const swap = (id1, id2, state) => {
+          const id1_idx = state.findIndex((s) => s.id == id1);
+          const id2_idx = state.findIndex((s) => s.id == id2);
+          const temp = state[id2_idx];
+          state[id2_idx] = state[id1_idx];
+          state[id1_idx] = temp;
+        };
+        const dragStart_handler = (e) => {
+          e.target.style.opacity = 0.5;
+          e.dataTransfer.setData('text/plain', e.target.id);
+        };
+        const dragEnd_handler = (e) => {
+          e.target.style.opacity = '';
+        };
+        const drop_handler = (e) => {
+          e.target.style.border = '';
+          const nextState = this.state.slice();
+          swap(e.dataTransfer.getData('text/plain'), e.target.id, nextState);
+          this.setState(nextState);
+        };
+        const dragOver_handler = (e) => {
+          e.preventDefault();
+          e.target.style.border = '3px solid gray';
+        };
+        const dragLeave_handler = (e) => {
+          e.target.style.border = '';
+        };
+        this.render = () => {
+          $content.innerHTML = this.state
+            .map((v) => {
+              const { id, name } = v;
+              return `<div id='${id}' class='item' draggable='true'>${name}</div>`;
+            })
+            .join('');
+          const $item = [...$content.querySelectorAll('.item')];
+          $item.forEach((item) => {
+            item.draggable = true;
+            item.addEventListener('dragstart', dragStart_handler);
+            item.addEventListener('dragend', dragEnd_handler);
+            item.addEventListener('drop', drop_handler);
+            item.addEventListener('dragover', dragOver_handler);
+            item.addEventListener('dragleave', dragLeave_handler);
+          });
+        };
+        const init = () => {
+          const nextState = [
+            { id: 1, name: 'git' },
+            { id: 2, name: 'js' },
+            { id: 3, name: 'react' },
+          ];
+          this.setState(nextState);
+        };
+        init();
+      }
+      const draggable = new Draggable();
+    </script>
+  </body>
+</html>

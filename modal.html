@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .modal {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        /* background: gray; */
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: modal-show 0.3s ease;
+      }
+      .blind {
+        display: none;
+      }
+      .modal_content {
+        background: white;
+        text-align: center;
+        padding: 50px 100px;
+        border-radius: 10px;
+        width: 10%;
+      }
+      @keyframes modal-show {
+        from {
+          opacity: 0;
+          /* margin-top: -50px; */
+        }
+        to {
+          opacity: 1;
+          /* margin-top: 0; */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <button class="open">모달창</button>
+    </div>
+    <div class="modal blind">
+      <div class="modal_content">
+        <h1>모달창</h1>
+        <button class="close">닫기</button>
+      </div>
+    </div>
+    <script>
+      const $modal = document.querySelector('.modal');
+      const $open = document.querySelector('.open');
+      const $close = document.querySelector('.close');
+      $open.addEventListener('click', () => {
+        $modal.classList.remove('blind');
+      });
+      $close.addEventListener('click', () => {
+        $modal.classList.add('blind');
+      });
+    </script>
+  </body>
+</html>

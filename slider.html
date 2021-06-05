@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .img {
+        width: 200px;
+        height: 200px;
+        opacity: 1;
+        display: inline-block;
+        transition: all 0.5s;
+      }
+      .img:nth-child(1) {
+        background: red;
+      }
+      .img:nth-child(2) {
+        background: blue;
+      }
+      .img:nth-child(3) {
+        background: green;
+      }
+      .blind {
+        visibility: hidden;
+        width: 0;
+        height: 0;
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="img">
+      <div>1</div>
+    </div>
+    <div class="img blind">
+      <div>2</div>
+    </div>
+    <div class="img blind">
+      <div>3</div>
+    </div>
+    <button class="btn_left">◀</button>
+    <button class="btn_right">▶</button>
+    <script>
+      let now = 0;
+      const $btnLeft = document.querySelector('.btn_left');
+      const $btnRight = document.querySelector('.btn_right');
+      const $img = [...document.querySelectorAll('.img')];
+      const decrease = () => {
+        $img[now].classList.add('blind');
+        if (now === 0) now = 2;
+        else now--;
+        $img[now].classList.remove('blind');
+      };
+      const increase = () => {
+        $img[now].classList.add('blind');
+        if (now === 2) now = 0;
+        else now++;
+        $img[now].classList.remove('blind');
+      };
+
+      $btnLeft.addEventListener('click', decrease);
+      $btnRight.addEventListener('click', increase);
+    </script>
+  </body>
+</html>
